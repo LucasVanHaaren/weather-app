@@ -3,6 +3,9 @@
     <v-col :md="4" :sm="12" v-for="day in forecast" :key="day.dt">
       <ShortDayWeather :name="getDayNameBydt(day.dt)" :temperature="day.temp.day" :humidity="day.humidity" :icon_url="getIconUrlById(day.weather[0].icon)" />
     </v-col>
+    <v-col cols="12">
+      <v-btn width="100%" color="red darken-3" outlined text :to="{ name: 'TodayWeather', params: { city: this.$route.params.city } }" >See Today Weather</v-btn>
+    </v-col>
   </v-row>
 </template>
 

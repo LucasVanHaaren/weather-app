@@ -10,18 +10,18 @@ const routes = [
     redirect: { name: 'TodayWeatherDefault' }
   },
   {
-    path: '/today-weather',
+    path: '/weather',
     name: 'TodayWeatherDefault',
     redirect: { name: 'TodayWeather', params: { city: 'paris' } }
   },
   {
-    path: '/today-weather/:city',
-    name: 'TodayWeather',
+    path: "/weather/:city/today",
+    name: "TodayWeather",
     component: () => import(/* webpackChunkName: "todayweather" */ '../views/TodayWeatherView.vue')
   },
   {
-    path: '/week-weather/:city',
-    name: 'WeekWeather',
+    path: "/weather/:city/week",
+    name: "WeekWeather",
     component: () => import(/* webpackChunkName: "weekweather" */ '../views/WeekWeatherView.vue')
   },
   {
