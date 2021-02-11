@@ -1,17 +1,48 @@
 <template>
-  <div class="home">
-    <HelloWorld msg="WeekWeatherView"/>
-  </div>
+  <v-row class="mx-auto">
+    <v-col :md="4" :sm="12" v-for="day in forecast" :key="day.dt">
+      <ShortDayWeather :name="getDayNameBydt(day.dt)" :temperature="day.temp.day" :humidity="day.humidity" :icon_url="getIconUrlById(day.weather[0].icon)" />
+    </v-col>
+  </v-row>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import dayjs from "dayjs";
+
+import api from "@/service/openweathermap";
+import ShortDayWeather from "@/components/ShortDayWeather";
 
 export default {
-  name: 'Home',
+  name: 'WeekWeatherView',
   components: {
-    HelloWorld
+    ShortDayWeather
+  },
+  data: () => ({
+    forecast: null
+  }),
+  methods: {
+    fetchForecast: function() {
+      api.getWeekForecastByCityName(this.$route.params.city)
+        .then(data => {
+          this.forecast = data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getIconUrlById: function(icon_id) {
+      return `https://openweathermap.org/img/wn/${icon_id}@4x.png`
+    },
+    getDayNameBydt: function(dt) {
+      return dayjs.unix(dt).format("dddd");
+    }
+  },
+  mounted() {
+    this.fetchForecast()
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.fetchForecast();
+    next();
   }
 }
 </script>

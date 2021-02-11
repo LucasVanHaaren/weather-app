@@ -1,12 +1,13 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark fixed flat dense>
+    <v-app-bar app color="red darken-3" dark fixed flat dense>
       <v-btn text plain :to="{ name: 'root' }">
         <v-icon>fas fa-cloud</v-icon>
         <span class="ml-1">WeatherApp</span>
       </v-btn>
       <v-spacer></v-spacer>
       <v-text-field
+          color="red lighten-1"
           solo-inverted
           flat
           dense
@@ -24,8 +25,8 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <v-container fluid>
-        <router-view>
+      <v-container fluid fill-height>
+        <router-view :key="$route.fullPath">
         </router-view>
       </v-container>
     </v-main>
