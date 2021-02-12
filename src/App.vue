@@ -44,7 +44,10 @@
 </template>
 
 <script>
-import router from "@/router"
+import VueRouter from "vue-router";
+import router from "@/router";
+
+const { isNavigationFailure, NavigationFailureType } = VueRouter;
 
 export default {
   name: 'App',
@@ -59,6 +62,11 @@ export default {
   methods: {
     routeToCityName() {
       router.push({name: router.name, params: { city: this.search.toLowerCase() } })
+        .catch((e) => {
+          if (!isNavigationFailure(e, NavigationFailureType.redirected)) {
+              Promise.reject(e)
+          }
+      });
       this.search = ""
     },
     handleError(event) {
