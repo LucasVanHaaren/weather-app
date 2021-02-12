@@ -12,3 +12,11 @@ Then run these commands to install dependencies and build the app.
 npm install
 npm run build
 ```
+
+## App navigation
+
+- `/#/weather/<CITYNAME>/today` shows detailed weather for the day
+
+- `/#/weather/<CITYNAME>/week` shows weather forecast for the week
+
+- `/#/settings` shows application settings (**Under development**)
