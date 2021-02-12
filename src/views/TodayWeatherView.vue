@@ -1,5 +1,6 @@
 <template>
-  <FullDayWeather
+  <v-row align="center" justify="center" class="mx-auto">
+    <FullDayWeather
     v-if="weather"
     :name="weather.name"
     :description="weather.description" 
@@ -9,6 +10,15 @@
     :pressure="weather.pressure"
     :icon_url="icon_url"
     :link="{ name: 'WeekWeather', params: { city: this.$route.params.city } }" />
+  <v-progress-circular
+    v-else
+    :size="100"
+    width="8"
+    color="red lighten-1"
+    indeterminate
+    class="mx-auto"
+  ></v-progress-circular>
+  </v-row>
 </template>
 
 <script>

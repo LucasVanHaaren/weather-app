@@ -1,11 +1,22 @@
 <template>
-  <v-row class="mx-auto">
-    <v-col :md="4" :sm="12" v-for="day in forecast" :key="day.dt">
-      <ShortDayWeather :name="getDayNameBydt(day.dt)" :temperature="day.temp.day" :humidity="day.humidity" :icon_url="getIconUrlById(day.weather[0].icon)" />
-    </v-col>
-    <v-col cols="12">
-      <v-btn width="100%" color="red darken-3" outlined text :to="{ name: 'TodayWeather', params: { city: this.$route.params.city } }" >See Today Weather</v-btn>
-    </v-col>
+  <v-row class="mx-auto mt-2">
+    <v-row v-if="forecast" class="mx-auto">
+      <v-col :md="4" :sm="12" v-for="day in forecast" :key="day.dt">
+        <ShortDayWeather :name="getDayNameBydt(day.dt)" :temperature="day.temp.day" :humidity="day.humidity" :icon_url="getIconUrlById(day.weather[0].icon)" />
+      </v-col>
+      <v-col cols="12">
+        <v-btn width="100%" color="red darken-3" outlined text :to="{ name: 'TodayWeather', params: { city: this.$route.params.city } }" >See Today Weather</v-btn>
+      </v-col>
+    </v-row>
+    <v-row v-else class="mx-auto">
+      <v-progress-circular
+        :size="100"
+        width="8"
+        color="red lighten-1"
+        indeterminate
+        class="mx-auto">
+      </v-progress-circular>
+    </v-row>
   </v-row>
 </template>
 
