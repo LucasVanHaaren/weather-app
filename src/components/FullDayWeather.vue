@@ -32,6 +32,14 @@
             {{ wind_speed }} m/s
           </v-list-item-title>
         </v-list-item>
+        <v-list-item>
+          <v-list-item-icon>
+            <v-icon>fas fa-tachometer-alt</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>
+            {{ pressure }} hPa
+          </v-list-item-title>
+        </v-list-item>
       </v-list-item-content>
       <v-list-item-avatar tile size="200">
         <img :src="icon_url" />
@@ -53,6 +61,7 @@
       description: String,
       temperature: Number,
       humidity: Number,
+      pressure: Number,
       wind_speed: Number,
       icon_url: String,
       link: Object

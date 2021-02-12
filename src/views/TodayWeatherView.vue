@@ -6,6 +6,7 @@
     :temperature="weather.temperature.current"
     :humidity="weather.humidity"
     :wind_speed="weather.wind_speed"
+    :pressure="weather.pressure"
     :icon_url="icon_url"
     :link="{ name: 'WeekWeather', params: { city: this.$route.params.city } }" />
 </template>
