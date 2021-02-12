@@ -13,7 +13,7 @@
             <v-icon>fas fa-thermometer-quarter</v-icon>
           </v-list-item-icon>
           <v-list-item-title>
-            {{ temperature }} °C
+            {{ temperature }} ° {{ temp_unit }}
           </v-list-item-title>
         </v-list-item>
         <v-list-item>
@@ -29,7 +29,7 @@
             <v-icon>fas fa-wind</v-icon>
           </v-list-item-icon>
           <v-list-item-title>
-            {{ wind_speed }} m/s
+            {{ wind_speed }} {{ speed_unit}}
           </v-list-item-title>
         </v-list-item>
         <v-list-item>
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-  export default {
+export default {
     name: 'FullDayWeather',
     props: {
       name: String,
@@ -65,6 +65,14 @@
       wind_speed: Number,
       icon_url: String,
       link: Object
+    },
+    computed: {
+      temp_unit: function() {
+        return this.$store.getters["unit"] === "metric" ? "C" : "F";
+      },
+      speed_unit: function() {
+        return this.$store.getters["unit"] === "metric" ? "meters/s" : "miles/h";
+      }
     }
   }
 </script>

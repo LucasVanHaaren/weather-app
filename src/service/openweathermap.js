@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from "@/store/";
 
 const api = axios.create({
     baseURL: 'https://api.openweathermap.org/',
@@ -21,7 +22,7 @@ function getCoordinatesByCityName(cityName) {
 
 export default {
     getTodayWeatherByCityName: (cityName) => {
-        return api.get("/data/2.5/weather", { params: { q: cityName, units: "metric" }})
+        return api.get("/data/2.5/weather", { params: { q: cityName, units: store.getters["unit"] }})
             .then(payload => {
                 let data = payload.data;
                 return {
@@ -45,7 +46,7 @@ export default {
     getWeekForecastByCityName: (cityName) => {
         return getCoordinatesByCityName(cityName)
             .then(coordinates => {
-                return api.get("/data/2.5/onecall", { params: { lat: coordinates.lat, lon: coordinates.lon, exclude: "current,minutely,hourly,alerts", units: "metric" }})
+                return api.get("/data/2.5/onecall", { params: { lat: coordinates.lat, lon: coordinates.lon, exclude: "current,minutely,hourly,alerts", units: store.getters["unit"] }})
                     .then(payload => {
                         return payload.data.daily.slice(1,7);
                     })
