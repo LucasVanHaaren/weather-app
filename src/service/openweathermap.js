@@ -11,6 +11,7 @@ const api = axios.create({
 function getCoordinatesByCityName(cityName) {
     return api.get("/geo/1.0/direct", { params: { q: cityName, limit: 1 }})
         .then(payload => {
+            if(!payload.data[0]) throw { cod: 404, message: "City not found"}
             return {
                 lat: payload.data[0].lat,
                 lon: payload.data[0].lon
@@ -36,17 +37,21 @@ export default {
                         max: data.main.temp_max
                     }
                 }
+            })
+            .catch(err => {
+                throw err.response.data;
             });
     },
     getWeekForecastByCityName: (cityName) => {
-        return getCoordinatesByCityName(cityName).then(coordinates => {
-            return api.get("/data/2.5/onecall", { params: { lat: coordinates.lat, lon: coordinates.lon, exclude: "current,minutely,hourly,alerts", units: "metric" }})
-                .then(payload => {
-                    return payload.data.daily.slice(1,7);
-                })
-                .catch(err => {
-                    throw err;
-                });
-        });   
+        return getCoordinatesByCityName(cityName)
+            .then(coordinates => {
+                return api.get("/data/2.5/onecall", { params: { lat: coordinates.lat, lon: coordinates.lon, exclude: "current,minutely,hourly,alerts", units: "metric" }})
+                    .then(payload => {
+                        return payload.data.daily.slice(1,7);
+                    })
+                    .catch(err => {
+                        throw err.response.data;
+                    });
+            });
     }
 };

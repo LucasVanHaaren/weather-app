@@ -26,8 +26,18 @@
     </v-app-bar>
     <v-main>
       <v-container fluid fill-height>
-        <router-view :key="$route.fullPath">
+        <router-view :key="$route.fullPath" @apierr="handleError">
         </router-view>
+        <v-snackbar
+          app
+          bottom
+          multi-line
+          right
+          color="error"
+          v-model="snackbar.isActive"
+          :timeout="4000">
+        <b>Error {{ snackbar.code }}:</b> {{ snackbar.message }}
+        </v-snackbar>
       </v-container>
     </v-main>
   </v-app>
@@ -39,12 +49,22 @@ import router from "@/router"
 export default {
   name: 'App',
   data: () => ({
-    search: ""
+    search: "",
+    snackbar: {
+      isActive: false,
+      code: "",
+      message: ""
+    }
   }),
   methods: {
     routeToCityName() {
       router.push({name: router.name, params: { city: this.search.toLowerCase() } })
       this.search = ""
+    },
+    handleError(event) {
+      this.snackbar.code = event.cod;
+      this.snackbar.message = event.message;
+      this.snackbar.isActive = true;
     }
   }
 };

@@ -24,13 +24,10 @@ export default {
     forecast: null
   }),
   methods: {
-    fetchForecast: function() {
-      api.getWeekForecastByCityName(this.$route.params.city)
+    fetchForecast: function(cityName) {
+      return api.getWeekForecastByCityName(cityName)
         .then(data => {
           this.forecast = data;
-        })
-        .catch(err => {
-          console.log(err);
         });
     },
     getIconUrlById: function(icon_id) {
@@ -40,12 +37,18 @@ export default {
       return dayjs.unix(dt).format("dddd");
     }
   },
-  mounted() {
-    this.fetchForecast()
+  created() {
+    this.fetchForecast(this.$route.params.city)
   },
   beforeRouteUpdate (to, from, next) {
-    this.fetchForecast();
-    next();
+    this.fetchForecast(to.params.city)
+      .then(() => {
+        next();
+      })
+      .catch(err => {
+        this.$emit("apierr", err);
+        next(from);
+      });
   }
 }
 </script>

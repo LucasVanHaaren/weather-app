@@ -23,14 +23,11 @@ export default {
     weather: null
   }),
   methods: {
-    fetchWeather: function() {
+    fetchWeather: function(cityName) {
       // get weather data from openweathermap API
-      api.getTodayWeatherByCityName(this.$route.params.city)
+      return api.getTodayWeatherByCityName(cityName)
         .then(data => {
           this.weather = data
-        })
-        .catch(err => {
-          console.log(err);
         });
       }
   },
@@ -39,12 +36,18 @@ export default {
       return `https://openweathermap.org/img/wn/${this.weather.icon_id}@4x.png`
     }
   },
-  mounted() {
-    this.fetchWeather();
+  created() {
+    this.fetchWeather(this.$route.params.city);
   },
   beforeRouteUpdate (to, from, next) {
-    this.fetchWeather();
-    next();
+    this.fetchWeather(to.params.city)
+      .then(() => {
+        next();
+      })
+      .catch((err) => {
+        this.$emit("apierr", err);
+        next(from);
+      });
   }
 }
 </script>
