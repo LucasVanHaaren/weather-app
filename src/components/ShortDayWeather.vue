@@ -10,7 +10,7 @@
             <v-icon>fas fa-thermometer-quarter</v-icon>
           </v-list-item-icon>
           <v-list-item-title>
-            {{ temperature }} °C
+            {{ temperature }} °{{ temp_unit }}
           </v-list-item-title>
         </v-list-item>
         <v-list-item>
@@ -37,6 +37,11 @@
       temperature: Number,
       humidity: Number,
       icon_url: String,
+    },
+    computed: {
+      temp_unit: function() {
+        return this.$store.getters["unit"] === "metric" ? "C" : "F";
+      }
     }
   }
 </script>
